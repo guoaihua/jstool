@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    function jQuery() {
+      return new jQuery.prototype.init();
+    }
+
+    jQuery.prototype = {
+      init: function(){
+        // 直接调用方法为 jquery.prototype,所以this 指向原型 jQuery.prototype，new的话 this绑定init
+        this.age = 20;
+        return this;
+      },
+      say(){
+        console.log(this);
+      },
+      age: 12
+    };
+
+    jQuery.prototype.init.prototype = jQuery.prototype;
+
+    var a = jQuery();
+    console.log(a.age);
+    a.say();
+</script>
+
+</body>
+</html>
