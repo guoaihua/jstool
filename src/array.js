@@ -64,5 +64,36 @@ function findIndex(arr, callback) {
 }
 
 
+function indexOf(arr, value) {
+  return findIndex(arr, function (item) {
+    return item === value
+  })
+}
+
+function every(arr,callback) {
+  const len = arr.length;
+
+  for (let i = 0; i < len; i++){
+    if(!callback(arr[i], i , arr)){
+      return false
+    }
+  }
+
+  return true
+}
+
+function some(arr,callback) {
+  const len = arr.length;
+
+  for (let i = 0; i < len; i++){
+    if(callback(arr[i], i , arr)){
+      return false
+    }
+  }
+
+  return true
+}
+
+
 
 
