@@ -96,4 +96,13 @@ function some(arr,callback) {
 
 
 
+function _Array(){
+  this._arr = [];
+}
 
+
+_Array.prototype = {
+  unqique(){
+    return this._arr.concat().filter()
+  }
+}

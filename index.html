@@ -1,35 +1,159 @@
+<!--
+ * @Author: ziming
+ * @Date: 2020-12-23 22:47:12
+ * @LastEditors: ziming
+ * @LastEditTime: 2021-03-18 23:28:04
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+  html, body {
+    height: 500%;
+  }
+</style>
+<script src="./src/throttle.js">
+</script>
+<script src="./src//debounce.js"></script>
 <body>
-
+<script src="./src/bind.js"></script>
 <script>
 
-    function jQuery() {
-      return new jQuery.prototype.init();
+function _Promise(exector) {
+  this.status = 'pending';
+  this.value;
+  this.error;
+  this.fulfillCallbacks = [];
+  this.rejectCallbacks = [];
+
+  var resolve = (res)=> {
+    if(this.status === 'pending'){
+      this.status = 'fulfilled';
+      this.value = res;
+      // 一旦resolve执行，调用成功数组的函数
+      this.fulfillCallbacks.forEach(fn => fn());
+    
     }
+  }
 
-    jQuery.prototype = {
-      init: function(){
-        // 直接调用方法为 jquery.prototype,所以this 指向原型 jQuery.prototype，new的话 this绑定init
-        this.age = 20;
-        return this;
-      },
-      say(){
-        console.log(this);
-      },
-      age: 12
-    };
+  var reject = (err)=> {
+    if(this.status === 'pending'){
+      this.status = 'rejected';
+      this.error = err;
+    }
+             // 一旦reject执行，调用失败数组的函数
+    this.rejectCallbacks.forEach(fn => fn());
+  }
 
-    jQuery.prototype.init.prototype = jQuery.prototype;
+  this.then =(onFullfilled, onRejected)=>{
 
-    var a = jQuery();
-    console.log(a.age);
-    a.say();
+    // 实现链式调用的，返回一个新的promise
+    let promise2;
+
+    promise2 = new _Promise((resolve, reject)=>{
+        if(this.status === 'fulfilled'){
+          let x = onFullfilled(this.value);
+          // resolvePromise函数，处理自己return的promise和默认的promise2的关系
+          resolvePromise(promise2, x, resolve, reject);
+        }
+        if(this.status === 'rejected'){
+          let x = onRejected(this.value);
+          // resolvePromise函数，处理自己return的promise和默认的promise2的关系
+          resolvePromise(promise2, x, resolve, reject);
+        }
+
+        // pending状态时，收集回调， 发布订阅模式
+        if(this.status === 'pending'){
+          this.fulfillCallbacks.push(()=>{
+              let x = onRejected(this.value);
+              resolvePromise(promise2, x, resolve, reject);
+            });
+          this.rejectCallbacks.push(()=>{
+                let x = onRejected(this.err);
+                resolvePromise(promise2, x, resolve, reject);
+            })
+
+        }
+    });
+
+
+    return promise2;
+  }
+
+  exector(resolve, reject);
+}
+
+new _Promise((resolve, reject)=>{
+  resolve(10)
+}).then((value)=>{
+  console.log(value);
+},(err)=>{
+  console.log(err);
+})
 </script>
 
+<script>
+  function moveZeroes(nums) {
+    var snowBallsize = 0;
+    for (var i = 0; i < nums.length; i++) {
+      if(nums[i]==0){
+          snowBallsize++;
+      }else {
+        var temp = nums[i];
+        nums[i] = 0;
+        nums[i-snowBallsize] = temp;
+      }
+    }
+    return nums;
+  }
+
+  console.log(moveZeroes([0,1,0,3,12]));
+
+  var twoSum = function(numbers, target) {
+    let high = numbers.length - 1;
+    
+    for(var i = 0; i < numbers.length; i++){
+      var low = i + 1;
+      while(low <= high){
+        var mid = parseInt((high - low) / 2) + low;
+        if(numbers[mid] == target - numbers[i]){
+          return [i + 1, mid + 1];
+        }else if(numbers[mid] > target - numbers[i]){
+          high = mid - 1;
+        }else {
+          low = mid + 1;
+        }
+      }
+    }
+};
+var twoSum1 = function (numbers, target) {
+  let len = numbers.length,
+    left = 0,
+    right = len - 1,
+    mid = 0
+  for (let i = 0; i < len; ++i) {
+    left = i + 1
+    while (left <= right) {
+      mid = parseInt((right - left) / 2) + left
+      if (numbers[mid] == target - numbers[i]) {
+        return [i + 1, mid + 1]
+      } else if (numbers[mid] > target - numbers[i]) {
+        right = mid - 1
+      } else {
+        left = mid + 1
+      }
+    }
+  }
+  return [-1, -1]
+}
+
+
+console.log(twoSum([2,3,4], 6));
+
+</script>
 </body>
 </html>
+
