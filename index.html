@@ -20,7 +20,7 @@
 <script src="./src//debounce.js"></script>
 <body>
 <script src="./src/bind.js"></script>
-<script>
+<!-- 
 
 function _Promise(exector) {
   this.status = 'pending';
@@ -93,7 +93,7 @@ new _Promise((resolve, reject)=>{
 },(err)=>{
   console.log(err);
 })
-</script>
+</script> -->
 
 <script>
   function moveZeroes(nums) {
@@ -152,6 +152,46 @@ var twoSum1 = function (numbers, target) {
 
 
 console.log(twoSum([2,3,4], 6));
+
+</script>
+
+<script>
+
+  function deepClone(obj){
+    if(typeof obj !== "object" || obj !== null){
+      // 基础数据类型直接返回
+        return obj;
+    }
+  
+    if(Array.isArray(obj)){
+      // Object.getOwnProtoType(obj).constructor
+      var temp = [];
+      for(var i = 0; i < obj.length; i++){
+          temp.push(deepClone(obj[i]));
+      }
+      return temp;
+    }else {
+      // obj
+      var temp = {};
+      for(var prop in obj){
+          if(obj.hasOwnProperty(prop)){
+              temp[prop] = deepClone(obj[prop]);
+          }
+      }
+      return temp;
+    }
+
+  }
+
+  var obj = {
+    a:11,
+    b: {
+      c:[1,2,3]
+    }
+  };
+
+  var a = deepClone(obj);
+  console.log(a);
 
 </script>
 </body>
