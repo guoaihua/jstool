@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = function(a,b,c){ 
+            console.log(a, b,c);
+            console.log(this);
+        };
+        var b = {a:12313};
+        zm._call(a, null, 1,2,3);
+        zm._apply(a, null,[1,2,3]);
+    </script>
+    <script>
+        const module = {
+                x: 42,
+                getX: function() {
+                    return this.x;
+                }
+                };
+
+                const unboundGetX = module.getX;
+                console.log(unboundGetX()); // The function gets invoked at the global scope
+                // expected output: undefined
+
+                const boundGetX = zm._bind(unboundGetX, module);
+                console.log(boundGetX());
+                // expected output: 42
+
+
+function list() {
+  return Array.prototype.slice.call(arguments);
+}
+
+function addArguments(arg1, arg2) {
+    return arg1 + arg2
+}
+
+var list1 = list(1, 2, 3); // [1, 2, 3]
+
+var result1 = addArguments(1, 2); // 3
+
+// 创建一个函数，它拥有预设参数列表。
+var leadingThirtysevenList = zm._bind(list,null, 37);
+
+// 创建一个函数，它拥有预设的第一个参数
+var addThirtySeven = zm._bind(addArguments,null, 37);
+
+var list2 = leadingThirtysevenList();
+// [37]
+
+var list3 = leadingThirtysevenList(1, 2, 3);
+// [37, 1, 2, 3]
+
+var result2 = addThirtySeven(5);
+// 37 + 5 = 42
+
+var result3 = addThirtySeven(5, 10);
+// 37 + 5 = 42 ，第二个参数被忽略    
+    </script>
+
+
+
+    <script>
+            function test(){
+        console.log(this);
+
+    }
+
+    var a = {
+        b: "adad"
+    }
+
+    var b = zm._bind(test, a, 111);
+    console.log(b);
+    var c = new b();
+    console.log(c);
+
+    </script>
+    
+</body>
+</html>
