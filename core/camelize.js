@@ -27,11 +27,11 @@
 
 function resolveKey(input){
     return  input.replace(/(\S)(_([a-zA-Z]))/g, function(match, $1, $2, $3){
-            return $1 + $3.toUpperCase() || "";
+            return $1 + $3.toUpperCase();
     })
 }
 
-function camelizeKeys(input, convert){
+export default function camelizeKeys(input, convert){
     if(!_isObject(input) || _isDate(input) || _isRegExp(input) || _isBoolean(input) || _isFunction(input)){
         return convert ? resolveKey(input) : input;
     }
