@@ -29,7 +29,7 @@ const _isRegExp = function(value){
     return toString.call(value) === '[object RegExp]';
 }
 
-const _hasOwnPro =  function(object, value){
+const _has =  function(object, value){
     return Object.prototype.hasOwnProperty.call(object, value);
 }
 
@@ -40,5 +40,5 @@ export {
     _isDate,
     _isObject,
     _isRegExp,
-    _hasOwnPro
+    _has
 }

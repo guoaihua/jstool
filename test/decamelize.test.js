@@ -34,8 +34,6 @@ describe("decamelizeKeys", function(){
             });
         })
 
-        console.log(obj, obj.customName);
-
         it("should return null when given null ", function(){
             expect(decamelizeKeys(null)).to.equal(null);
         })

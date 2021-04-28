@@ -14,6 +14,7 @@ describe("camelize", function(){
 
 
     describe("obj", function(){
+
         it("should return lotNumber", function(){
             expect(camelizeKeys({
                 captcha_id: "adadsad",

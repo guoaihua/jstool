@@ -1,28 +1,5 @@
-// input
+import { _isArray, _has } from "../core/utils";
 
-
-  // Utilities
-  // Taken from Underscore.js
-  var toString = Object.prototype.toString;
-
-  var _isFunction = function(obj) {
-    return typeof(obj) === 'function';
-  };
-  var _isObject = function(obj) {
-    return obj === Object(obj);
-  };
-  var _isArray = function(obj) {
-    return toString.call(obj) == '[object Array]';
-  };
-  var _isDate = function(obj) {
-    return toString.call(obj) == '[object Date]';
-  };
-  var _isRegExp = function(obj) {
-    return toString.call(obj) == '[object RegExp]';
-  };
-  var _isBoolean = function(obj) {
-    return toString.call(obj) == '[object Boolean]';
-  };
 
 
 function resolveKey(input){
@@ -32,7 +9,7 @@ function resolveKey(input){
 }
 
 export default function camelizeKeys(input, convert){
-    if(!_isObject(input) || _isDate(input) || _isRegExp(input) || _isBoolean(input) || _isFunction(input)){
+    if(typeof input !== 'object' || input === null){
         return convert ? resolveKey(input) : input;
     }
 
@@ -45,7 +22,7 @@ export default function camelizeKeys(input, convert){
     }else {
         var temp = {};
         for(var prop in input){
-            if(input.hasOwnProperty(prop)){
+            if(_has(input, prop)){
                 temp[camelizeKeys(prop, true)] = camelizeKeys(input[prop]);
             }
         }
