@@ -9,10 +9,24 @@
 <body>
     <div class="btn">点击</div>
     <script>
-        var btn = document.getElementsByClassName("btn")[0];
-        btn.onclick = zm._debounce(function(e){
-            console.log(e);
-        },1000, true)
+                  const array1 = [1, 2, 3, 4];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        zm._reduce(array1,reducer);
+
+
+var sum = zm._reduce([{x: 1}, {x:2}, {x:3}], function (accumulator, currentValue) {
+    return accumulator + currentValue.x;
+}, 0)
+console.log(sum) // logs 6
+
+
+let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd'];
+        let myOrderedArray = zm._reduce(myArray, function(accumulator, cur){
+            if(accumulator.indexOf(cur) === -1){
+                accumulator.push(cur)
+            }
+            return accumulator
+        },[]);
     </script>
 </body>
 </html>

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha -r esm test"
+    "test": "nyc mocha -r esm test",
+    "dev": "rollup -c --watch"
   },
   "repository": {
     "type": "git",
