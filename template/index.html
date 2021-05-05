@@ -28,5 +28,35 @@ let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd'];
             return accumulator
         },[]);
     </script>
+
+    <script>
+
+       var res =  namespace({a: {test: 1, b: 2}}, 'a.b.c.d')
+
+        function namespace(obj, path) {
+            var pathArr = path.split(".");
+
+            var res = obj; // 保存当前命名空间，引用类型
+            for (let i = 0; i < pathArr.length; i++) {
+                const item = pathArr[i];
+                if(item in obj){
+                    // 对像类型则保留，否则创建一个空对象
+                    if(typeof obj[item] !== 'object'){
+                        obj[item] = {};
+                    }    
+                
+                }else {
+                    // 不存在则创建一个空对象
+                    obj[item] = {}
+                }
+                // 核心是利用引用类型改变当前obj指向，同时改变了原始对象
+                obj = obj[item]; // obj 的引用指向了原始的一个属性
+            }
+            return res;
+        }
+
+        
+        
+    </script>
 </body>
 </html>
