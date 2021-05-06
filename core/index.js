@@ -7,6 +7,7 @@ import _decamelizeKeys from './decamelize';
 import _camelizeKeys from './camelize';
 import _map from './map';
 import _reduce from './reduce';
+import _flat from './flat';
 export default {
     _call,
     _apply, 
@@ -16,5 +17,6 @@ export default {
      _decamelizeKeys,
      _camelizeKeys,
      _map,
-     _reduce
+     _reduce,
+     _flat
 }
