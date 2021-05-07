@@ -59,5 +59,19 @@ let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd'];
        console.log(zm._flat([1,2,3,[4,5,[7,8]]]));
         
     </script>
+    <script>
+        var a = {
+            a:123,
+            b:[12,3,4],
+            c: function(params) {
+                
+            }
+        }
+
+        a.b.push(a);
+
+
+        var bb = zm._deepclone(a);
+    </script>
 </body>
 </html>

@@ -8,6 +8,7 @@ import _camelizeKeys from './camelize';
 import _map from './map';
 import _reduce from './reduce';
 import _flat from './flat';
+import _deepclone  from './deepclone';
 export default {
     _call,
     _apply, 
@@ -18,5 +19,6 @@ export default {
      _camelizeKeys,
      _map,
      _reduce,
-     _flat
+     _flat,
+     _deepclone
 }

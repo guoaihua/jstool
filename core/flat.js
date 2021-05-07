@@ -12,16 +12,16 @@ export default function flat(arr) {
 }
 
 
-export default function flat2(arr) {
+export  function flat2(arr) {
     return Array.prototype.flat.call(arr, Infinity);
 }
 
-export default function flat3(arr) {
+export  function flat3(arr) {
     return arr.toString().split(",").map(i=>parseInt(i,10))
 }
 
 
-export default function flat4(arr) {
+export  function flat4(arr) {
     while(arr.some(i => Array.isArray(i))){
         arr = [].concat(...arr);
     }
