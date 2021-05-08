@@ -9,6 +9,7 @@ import _map from './map';
 import _reduce from './reduce';
 import _flat from './flat';
 import _deepclone  from './deepclone';
+import _eventProxy from './eventproxy';
 export default {
     _call,
     _apply, 
@@ -20,5 +21,6 @@ export default {
      _map,
      _reduce,
      _flat,
-     _deepclone
+     _deepclone,
+     _eventProxy
 }

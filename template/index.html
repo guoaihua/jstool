@@ -7,7 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="btn">点击</div>
+    <div class="btn">
+        <ul class="ul">
+            <li>12</li>
+            <li>2</li>
+            <li class="aa">3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
     <script>
                   const array1 = [1, 2, 3, 4];
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -72,6 +80,12 @@ let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd'];
 
 
         var bb = zm._deepclone(a);
+    </script>
+
+    <script>
+        zm._eventProxy(".ul","click", function(e){
+            console.log(e, this);
+        },'.aa')
     </script>
 </body>
 </html>
