@@ -87,5 +87,18 @@ let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd'];
             console.log(e, this);
         },'.aa')
     </script>
+    <script>
+        var promise1 = new Promise(function(res) {
+            res(300);
+        })
+        var promise2 = new Promise(function(res) {
+            setTimeout(function(){
+                res(500);
+            },500);
+        })
+        Promise.race([promise1, promise2]).then(function (res) {
+            console.log(res);
+        })
+    </script>
 </body>
 </html>
