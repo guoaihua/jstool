@@ -28,3 +28,10 @@ export  function flat4(arr) {
     return arr
 }
 
+
+export function flat5(arr, num) {
+    return num >0 ? arr.reduce((pre, cur)=>{
+       return pre.concat(Array.isArray(cur)?flat5(cur, --num): cur)
+    },[]): arr
+}
+

@@ -26,6 +26,248 @@
     })
 
 </script>
+<script>
+  
+  
+  function debounce(fn,delay){
+    var timeout = null;
+    return function(){
+      clearTimeout(timeout);
+      timeout = setTimeout(()=>{
+          fn.apply(this, arguments);
+      },delay)
+    }
+  }
+
+
+  function throttle(fn, delay){
+    var pre = Date.now();
+    return function(){
+      var now = Date.now();
+      if(now - pre > delay){
+        fn.apply(this, arguments);
+        pre = now;
+      }
+    }
+  }
+</script>
+
+<script>
+  
+  var root =document.documentElement;
+
+  // DFS 递归写法遍历dom树
+
+  function travelsByRecursion(root){
+    if(root.nodeType !== 1){
+      return [];
+    }
+    console.log(root);
+    for(var i = 0; i < root.children.length; i++){
+      travelsByRecursion(root.children[i]);
+    }
+  }
+
+  travelsByRecursion(root);
+
+
+  // DFS 栈方式 push-pop
+  function travelsByStack(root){
+    var stack = [];
+    stack.push(root);
+    while(stack.length){
+      var ele = stack.pop();
+      console.log(ele);
+      // 倒着取
+      for(var i = ele.children.length-1; i >= 0; i--){
+          if(ele.children[i].nodeType === 1){
+            // 入栈
+            stack.push(ele.children[i]);
+          }
+      }
+    }
+  }
+
+  travelsByStack(root);
+
+
+  //BFS 队列方式，层序遍历 push-shift
+
+  function trvalesByQueue(root){
+    var queue = [];
+    queue.push(root);
+    while(queue.length){
+      for(var i = 0; i < queue.length; i++){
+        var cur = queue.shift();
+        // 处理当前节点
+        console.log(cur);
+        // 添加下层节点
+        for(var i = 0;i < cur.children.length; i++){
+          if(cur.children[i].nodeType === 1){
+            queue.push(cur.children[i]);
+          }
+        }
+      }
+    }
+  }
+
+trvalesByQueue(root);
+
+
+// DFS 递归遍历方式
+
+function deepCloneByRecursion(obj, map = new Map()){
+  if(typeof obj !== 'object' ||  typeof obj === 'null'){
+      return obj
+  }
+
+  var cache = map.get(obj);
+  if(cache){
+    return cache;
+  }
+  let _isArray = Array.isArray(obj);
+  let temp = _isArray ? [] : {};
+  map.set(obj, temp);
+
+  if(_isArray){
+    for(var i = 0; i < obj.length; i++){
+      temp.push(deepCloneByRecursion(obj[i], map));
+    }
+  }else {
+    Object.keys(obj).forEach(function(item){
+        temp[item] = deepCloneByRecursion(obj[item], map);
+    })
+  }
+  return temp;
+
+  
+}
+
+
+function getEmpty(o){
+	if(Object.prototype.toString.call(o) === '[object Object]'){
+		return {};
+	}
+	if(Object.prototype.toString.call(o) === '[object Array]'){
+		return [];
+	}
+	return o;
+}
+
+
+// BFS 方式遍历
+
+function deepCloneByQueue(obj){
+  var queue = [];
+  var ret = {};
+  queue.push([obj, ret]);
+  var map = new Map();
+  while(queue.length){
+    var [ori, tar] = queue.shift();
+
+    for(let key in ori){
+      if(map.get(ori[key])){
+          tar[key] = map.get(ori[key]);
+          continue;
+      }
+      // 对象和数组返回引用，原始类型直接返回值
+      tar[key] = getEmpty(ori[key]);
+
+      // 引用类型继续加入队列中判断
+      if(tar[key] !== ori[key]){
+         queue.push([ori[key], tar[key]]);
+         map.set(ori[key], tar[key]);
+      }
+    }
+  }
+  return ret
+}
+
+
+function getEmpty(o){
+	if(Object.prototype.toString.call(o) === '[object Object]'){
+		return {};
+	}
+	if(Object.prototype.toString.call(o) === '[object Array]'){
+		return [];
+	}
+	return o;
+}
+
+function deepCopyBFS(origin){
+	let queue = [];
+	let map = new Map(); // 记录出现过的对象，用于处理环
+
+	let target = getEmpty(origin);
+	if(target !== origin){
+		queue.push([origin, target]);
+		map.set(origin, target);
+	}
+
+	while(queue.length){
+		let [ori, tar] = queue.shift();
+		for(let key in ori){
+			// 处理环状
+			if(map.get(ori[key])){
+				tar[key] = map.get(ori[key]);
+				continue;
+			}
+
+			tar[key] = getEmpty(ori[key]);
+			if(tar[key] !== ori[key]){
+				queue.push([ori[key], tar[key]]);
+				map.set(ori[key], tar[key]);
+			}
+		}
+	}
+
+	return target;
+}
+
+
+
+
+var obj = {
+    a:11,
+    b: {
+      c:[1,2,3]
+    }
+  };
+var a = deepCloneByRecursion(obj);
+console.log(a);
+
+var b = deepCloneByQueue(obj);
+
+
+var c = deepCopyBFS(obj);
+</script>
+<script>
+  function formatDate(time, str){
+    var date = {
+      yyyy: time.getFullYear(),
+      yy: time.getFullYear() % 100,
+      MM: ("0" + (time.getMonth()+1)).slice(-2),
+      M: time.getMonth()+1,
+      dd: ("0" + (time.getDate())).slice(-2),
+      d: time.getDate(),
+      HH: ("0" + (time.getHours())).slice(-2),
+      H: time.getHours(),
+      hh: ("0" + time.getHours() % 12).slice(-2),
+      h: time.getHours() % 12,
+      mm: ("0" + time.getMinutes()).slice(-2),
+      m: time.getMinutes(),
+      ss: ("0" + time.getSeconds()).slice(-2),
+      s: time.getSeconds(),
+      w: ['日', '一', '二', '三', '四', '五', '六'][time.getDay()]
+    }
+    console.log(date);
+    return str.replace(/([a-z]+)/ig, function($1){
+      return date[$1]
+    });
+  }
+
+  console.log(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss 星期w'));
+</script>
 
 </body>
 </html>
